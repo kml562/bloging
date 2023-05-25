@@ -1,31 +1,34 @@
 import mongoose from "mongoose";
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose;
 
-const authorSchema = new Schema({
+const authorSchema = new Schema(
+  {
     fname: {
-        type:String,
-        require:true
+      type: String,
+      require: true,
     },
-    lname:{
-        type:String,
-        require:true
+    lname: {
+      type: String,
+      require: true,
     },
-    title:{
-        type:String,
-        require:true,
-        enum:["Mr", "Mrs", "Miss"]
+    title: {
+      type: String,
+      require: true,
+      enum: ["Mr", "Mrs", "Miss"],
     },
-    email:{
-        type:String,
-        require:true,
-        unique:true
+    email: {
+      type: String,
+      require: true,
+      unique: true,
     },
-    password:{
-        type:String,
-        require:true
-    }
-}, { timestamps:true})
+    password: {
+      type: String,
+      require: true,
+    },
+  },
+  { timestamps: true }
+);
 
-const authorModel = model('authorModel',authorSchema)
+const AuthorModel = model("authorModel", authorSchema);
 
-export default authorModel
+export default AuthorModel;

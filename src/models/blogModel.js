@@ -15,7 +15,8 @@ const blogSchema = new Schema({
     authorId:{
         type:objectId,
         ref:"authorModel",
-        require:true
+        require: true,
+  isValid:true,
     },
     tags: [
         {
@@ -39,6 +40,5 @@ const blogSchema = new Schema({
     }
 }, { timestamps: true})
 
-const blogModel = model('blogModel', blogSchema)
-
+const blogModel = model('blogModel', blogSchema);
 export default blogModel
