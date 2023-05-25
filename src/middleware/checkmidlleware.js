@@ -7,7 +7,7 @@ export const checkcrad = (req, res, next) => {
         if (!fname || !lname || !title || !email || !password) {
             return res.status(404).json({ status: false, message: "please enter all the required fields" })
         }
-        if (!isValidName(fname)||!isValidName(lname) || !isValidEmail(email) || !isValidPassword(password)) {
+        if (!isValidName(fname) || !isValidName(lname) || !isValidEmail(email) || !isValidPassword(password)) {
             return res.status(404).json({ status: false, message: "fill right information" })
         }
         next();
