@@ -1,5 +1,5 @@
-import blogModels from '../models/blogModel.js'
-import { isValidObjectId } from 'mongoose'
+import blogModel from '../models/blogModel.js'
+import { isValidObjectId } from 'mongoose';
 
 export const createBlog = async function(req, res){
     try {
@@ -12,7 +12,7 @@ export const createBlog = async function(req, res){
             if(!isValidObjectId(authorId)){
                 return res.status(404).send({ status:false, msg:"please provide valid authorId"})
             }
-            const saveData = await blogModels.create(blogData)
+            const saveData = await blogModel.create(blogData)
             res.status(201).send({ status:true, msg:saveData})
         
     } catch (error) {
@@ -28,7 +28,7 @@ const getBlogs = async function(req, res){
         if(authorId && isValidObjectId(authorId)){
             res.status(400).send({ status:false, msg:"Invalid authorId"})
         }
-        let blog = await blogModels.find({ ...getData}).populate("authorId")
+        let blog = await blogModel.find({ ...getData}).populate("authorId")
         if(blog.length == 0){
             res.status(400).send({ status:false, msg: "data not found"})
         }
