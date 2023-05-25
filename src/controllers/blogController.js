@@ -21,7 +21,7 @@ export const createBlog = async function(req, res){
 }
 
 
-const getBlogs = async function(req, res){
+export const getBlogs = async function(req, res){
     try{
         const getData = req.query
         const { authorId, category, tags, subcategory} = getData
@@ -40,4 +40,25 @@ const getBlogs = async function(req, res){
     
 }
 
-export default getBlogs
+
+
+
+export const deleteBlog = async function (req, res) {
+  try {
+    const condition = req.query;
+    if (!condition)
+      return res
+        .status(404)
+        .json({ statu: false, message: "Please provide condition" });
+    const data = await blogModels.findOneAndUpdate(
+      condition,
+      { isDeleted: true },
+      { new: true }
+    );
+    if (!data)
+      return res.status(404).json({ status: false, message: "Data not found" });
+    res.status(200).json({ statu: true, message: "Blog deleted" });
+  } catch (error) {
+    res.status(500).json({ statu: false, message: error.message });
+  }
+};
