@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //routing middleware -- mounting-
 
-app.use("/api/authors", authorRouter)
+app.use("/api/author", authorRouter)
 app.use('/api/users', userRouter)
 app.use("/api/posts", postRouter)
 
