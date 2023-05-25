@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 //routing middleware -- mounting-
 
 app.use("/api/author", authorRouter)
+
 app.use("/api/posts", postRouter)
 
 export default app;

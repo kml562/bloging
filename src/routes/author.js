@@ -9,8 +9,10 @@ router.get('/test', function (req, res) {
 
 
 //CreateAuthor router
+
 router.post('/createAuther',checkcrad ,createAuthor)
 
+router.post('/createAuthor', createAuthor)
 
 
 export default router;
