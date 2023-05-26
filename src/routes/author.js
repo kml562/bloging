@@ -9,7 +9,7 @@ router.get('/test', function (req, res) {
 
 
 //CreateAuthor router  ---------------------------------------------------
-router.post('/createAuther',createAuthor)
+router.post('/createAuthor', createAuthor)
 
 
 
