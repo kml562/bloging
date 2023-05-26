@@ -1,22 +1,23 @@
-import blogModel from '../models/blogModel.js'
+import BlogModel from '../models/blogModel.js'
 import { isValidObjectId } from 'mongoose';
+import { isValid } from '../utils/validation/validatior.js';
 
 export const createBlog = async function(req, res){
     try {
         let blogData = req.body
-        let authorId = blogData.authorId
+      let authorId = blogData.authorId.toString();
         
-            if(!authorId || authorId == ""){
-                return res.status(400).send({ status:false, msg: " Please provide authorId"})
+            if(isValid(authorId)){
+              return res.status(400).send({ status: false, msg: "Please provide authorId" });
             }
             if(!isValidObjectId(authorId)){
-                return res.status(404).send({ status:false, msg:"please provide valid authorId"})
-            }
-            const saveData = await blogModel.create(blogData)
-            res.status(201).send({ status:true, msg:saveData})
+              return res.status(404).send({ status: false, msg: "please provide valid authorId" });
+      }
+      const saveData = await BlogModel.create(blogData);
+      res.status(201).send({ status: true, msg: saveData });
         
     } catch (error) {
-        res.status(500).send({ status:false, msg: error.message})
+      res.status(500).send({ status: false, msg: error.message });
     }
 }
 
@@ -24,12 +25,12 @@ export const createBlog = async function(req, res){
 export const getBlogs = async function(req, res){
     try{
         const getData = req.query
-        const { authorId, category, tags, subcategory} = getData
-        if(authorId && isValidObjectId(authorId)){
+      const { authorId, category, tags, subcategory } = getData;
+        if(!authorId && !isValidObjectId(authorId)){
             res.status(400).send({ status:false, msg:"Invalid authorId"})
-        }
-        let blog = await blogModel.find({ ...getData}).populate("authorId")
-        if(blog.length == 0){
+      }
+        let blog = await BlogModel.find({ ...getData}).populate("authorId")
+        if(blog.length === 0){
             res.status(400).send({ status:false, msg: "data not found"})
         }
         res.status(201).send({ status:true, data: blog})
@@ -50,7 +51,7 @@ export const deleteBlog = async function (req, res) {
       return res
         .status(404)
         .json({ statu: false, message: "Please provide condition" });
-    const data = await blogModels.findOneAndUpdate(
+    const data = await BlogModel.findOneAndUpdate(
       condition,
       { isDeleted: true },
       { new: true }
