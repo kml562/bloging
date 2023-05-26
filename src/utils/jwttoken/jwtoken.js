@@ -1,4 +1,5 @@
-import  Jwt  from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 export const jwttoken=(id,userKey,email)=>{
   try{
     

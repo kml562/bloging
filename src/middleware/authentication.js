@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
-const Secretkey= process.env.JWT_JWT_SECRET
+import bcrypt from "bcrypt";
+const Secretkey = process.env.JWT_JWT_SECRET;
+
 export const authentication = async (req, res, next) => {
   try {
     if (!req.headers.x-api-key) {
@@ -19,5 +21,7 @@ export const authentication = async (req, res, next) => {
     return res.status(500).send({ status: false, message: error.message });
   }
 };
+
+
 
 
