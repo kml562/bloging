@@ -23,13 +23,22 @@ export const createBlog = async function(req, res){
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
-export const getBlogs = async function (req, res) {
-  try {
-    const getData = req.query
-    const { authorId, category, tags, subcategory } = getData;
-    if (!authorId && !isValidObjectId(authorId)) {
-      res.status(404).json({ status: false, messsage: "Invalid authorId" });
+
+
+export const getBlogs = async function(req, res){
+    try{
+      const getData = req.query
+      const { authorId, category, tags, subcategory } = getData;
+      if(!authorId && !isValidObjectId(authorId)){
+          res.status(400).send({ status:false, msg:"Invalid authorId"})
+      }
+      getData["isDeleted"]= false
+      getData["isPublished"] = true
+      let blog = await BlogModel.find({ ...getData}).populate("authorId")
+      if(blog.length == 0){
+        res.status(400).send({ status:false, msg: "data not found"})
+      }
+
     }
     let blog = await BlogModel.find({
       $and: [data, { isDeleted: false }, { isPublished: true }],
@@ -107,7 +116,7 @@ export const deleteBlog = async function (req, res) {
     if (!condition)
       return res
         .status(404)
-        .json({ statu: false, message: "Please provide condition" });
+        .send({ statu: false, message: "Please provide condition" });
     const data = await BlogModel.findOneAndUpdate(
       condition,
       { isDeleted: true },
@@ -118,5 +127,26 @@ export const deleteBlog = async function (req, res) {
     res.status(200).json({ statu: true, message: "Blog deleted" });
   } catch (error) {
     res.status(500).json({ statu: false, message: error.message });
+  }
+};
+
+
+export const deleteBlogByFilter = async function (req, res) {
+  try {
+      const ReqData = req.query;
+
+      //====performing deletion operation=======
+      const DeleteBlog = await BlogModel.updateMany(
+          { ...ReqData, isPublished: false, isDeleted: false },
+          { $set: { isDeleted: true } },
+          { new: true }
+      );
+
+      if (DeleteBlog.matchedCount == 0) {//matchedCount is nothing but one of the return key of updateMany query
+          return res.status(404).send({ status: false, msg: "Data  Already Deleted or Not Found !!" });
+      };
+      res.status(200).send({ status: true, msg: "Data Deleted Sucessfully !!" });
+  } catch (err) {
+      res.status(500).send({ status: false, msg: err.message });
   }
 };
