@@ -1,5 +1,5 @@
 import express from "express";
-import { createBlog, deleteBlog, getBlogs } from "../controllers/blogController.js";
+import { createBlog, deleteBlog, deleteBlogByFilter, getBlogs } from "../controllers/blogController.js";
 const router = express.Router();
 
 
@@ -14,6 +14,7 @@ router.get('/getBlogs',getBlogs)
 
 // Delete Blog using query params
 router.delete('/deleteBlogs',deleteBlog)
+router.delete('/deleteBlogByFilter/authorId',deleteBlogByFilter)
 
 
 
