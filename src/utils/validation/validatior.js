@@ -17,10 +17,15 @@ export const isValidPassword = (password) => {
 
 export const isValid =  (input)=> {
   if (typeof input === "undefined" || input === null) return false;
-  if (typeof input === "string" && input.trim().length > 0) return true;
+  if (typeof input === "string" && input.trim().length > 0&& input) return true;
   return false;
 };
 
+export const isValidarr = (arr) => {
+  if (arr && Array.isArray(arr))  return true;
+  
+  return false;;
+}
 
 
 export  const checkFormat=function(input)
