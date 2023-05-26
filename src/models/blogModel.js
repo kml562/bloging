@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
-const objectId = mongoose.Schema.Types.ObjectId
-
-const {Schema, model} = mongoose
+const objectId = mongoose.Schema.Types.ObjectId;
+const { Schema, model } = mongoose;
 
 const blogSchema = new Schema({
     title:{
@@ -41,4 +40,4 @@ const blogSchema = new Schema({
 }, { timestamps: true})
 
 const blogModel = model('blogModel', blogSchema);
-export default blogModel
+export default blogModel;
