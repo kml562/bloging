@@ -1,5 +1,5 @@
 import Jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+
 export const jwttoken=(id,userKey,email)=>{
   try{
     
@@ -18,7 +18,7 @@ export const jwttoken=(id,userKey,email)=>{
   catch(error)
     {
         
-       return res.status(500).send({status:false,message:error.message})
+ return res.status(500).send({status:false,message:error.message})
     }
 
 }

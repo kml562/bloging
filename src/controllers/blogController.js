@@ -3,7 +3,7 @@ import { isValidObjectId } from "mongoose";
 import { isValid, isValidarr } from "../utils/validation/validatior.js";
 import moment from "moment";
 
-//==/////////////////////===/////////////////////////////////////////////////////////////////////////////////////
+//==create Blog ----------------------------------------------------------------------->>>>>>>>>>
 export const createBlog = async function (req, res) {
   try {
     let blogData = req.body;
@@ -25,7 +25,7 @@ export const createBlog = async function (req, res) {
     res.status(500).json({ status: false, messsage: error.message });
   }
 };
-
+//get blog data ----------------------------------------------------------------------->>>>>>>>>>>
 export const getBlogs = async function (req, res) {
   try {
     const getData = req.query;
@@ -47,7 +47,48 @@ export const getBlogs = async function (req, res) {
     res.status(500).json({ status: false, messsage: err.message });
   }
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export const getblogdata = async () => {
+  try {
+    let filterData = req.query;
+    let getData = {
+      isDeleted: false,
+      isPublished: true,
+    };
+    const { authorId, category, subcategory } = filterData;
+    // if authoriD exist is in query prams-----------------------------------------------------------
+    if (authorId) {
+      getData.authorId = authorId;
+    }
+    // if any category exist is in query prams---------------------------------------------------------
+    if (category) {
+      getData.category = category;
+    }
+    // List of blogs that have a specific tag exist is in query prams-----------------------------------
+    if (tags) {
+      getData.tags = { $in: tags };
+    } //using $in to check inside the array--
+    // List of blogs that have a specific subcategory exist is in query prams--------------------------
+    if (subcategory) {
+      getData.subcategory = { $in: subcategory };
+    } //using $in to check inside the array-
+
+    let findData = await BlogModel.find(getData);
+    if (findData.length === 0) {
+      return res.status(404).json({ status: false, message: "No blog found" });
+    }
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "Blog updated successfully",
+        data: findData,
+      });
+  } catch (error) {
+    res.status(500).json({ status: false, message: error.message });
+  }
+};
+
+// update Blog---------------------------------------------------------------------------------
 
 export const updateBlog = async (req, res) => {
   try {
@@ -93,20 +134,18 @@ export const updateBlog = async (req, res) => {
         { new: true }
       );
 
-      return res
-        .status(200)
-        .json({
-          status: true,
-          message: "updated successfully",
-          data: updatedData,
-        });
+      return res.status(200).json({
+        status: true,
+        message: "updated successfully",
+        data: updatedData,
+      });
     }
   } catch (err) {
     res.status(500).json({ status: false, message: err.message });
   }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+// delete blog----------------------------------------------------------------------------->>>>>>>
 export const deleteBlog = async function (req, res) {
   try {
     const condition = req.query;
@@ -116,8 +155,11 @@ export const deleteBlog = async function (req, res) {
         .send({ statu: false, message: "Please provide condition" });
     const data = await BlogModel.findOneAndUpdate(
       condition,
-      { isDeleted: true },
-      { new: true }
+      {
+        isDeleted: true,
+        deletedAt: new Date.now(),
+      }, //when we are deleting something in our database then this key will created
+      { new: true, upsert: true }
     );
     if (!data)
       return res.status(404).json({ status: false, message: "Data not found" });
@@ -131,15 +173,15 @@ export const deleteBlogByFilter = async function (req, res) {
   try {
     const ReqData = req.query;
 
-    //====performing deletion operation=======
+    //====performing deletion operation========================================================
     const DeleteBlog = await BlogModel.updateMany(
       { ...ReqData, isPublished: false, isDeleted: false },
-      { $set: { isDeleted: true } },
-      { new: true }
+      { $set: { isDeleted: true, deletedAt: new Date.now() } },
+      { new: true, upsert: true }
     );
 
     if (DeleteBlog.matchedCount == 0) {
-      //matchedCount is nothing but one of the return key of updateMany query
+      //matchedCount is nothing but one of the return key of updateMany query====================
       return res
         .status(404)
         .send({ status: false, msg: "Data  Already Deleted or Not Found !!" });

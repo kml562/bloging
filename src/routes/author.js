@@ -1,5 +1,5 @@
 import express from "express";
-import { createAuthor } from "../controllers/createAuthor.js";
+import { createAuthor, getAuthor, login } from "../controllers/createAuthor.js";
 
 const router = express.Router();
 //test router----
@@ -9,7 +9,13 @@ router.get('/test', function (req, res) {
 
 
 //CreateAuthor router  ---------------------------------------------------
-router.post('/createAuther',createAuthor)
+router.post('/createAuther', createAuthor);
+router.get('/getUser', getAuthor);
+
+
+//login user----
+router.post('/login', login)
+
 
 
 
