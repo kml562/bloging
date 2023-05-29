@@ -39,10 +39,10 @@ The project involves building a blogging site with authentication and authorizat
 
 Create an author document from the request body.
 
-Endpoint: `BASE_URL/authors`
+Endpoint: `BASE_URL/api/author`
 
 - Method: `POST`
-- Path: `/authors`
+- Path: `/createAuthor`
 
 #### Create a blog
 
@@ -50,19 +50,19 @@ Create a blog document from the request body and get `authorId` in the request b
 
 Make sure the `authorId` is a valid `authorId` by checking if the author exists in the authors collection.
 
-Endpoint: `BASE_URL/blogs`
+Endpoint: `BASE_URL/api/posts`
 
 - Method: `POST`
-- Path: `/blogs`
+- Path: `/createBlog`
 
 #### Get all blogs
 
 Returns all blogs in the collection that aren't deleted and are published.
 
-Endpoint: `BASE_URL/blogs`
+Endpoint: `BASE_URL/api/posts`
 
 - Method: `GET`
-- Path: `/blogs`
+- Path: `/getBlogs`
 
 #### Filter blogs list
 
@@ -76,7 +76,7 @@ Filter blogs list by applying filters. The query parameters can have any combina
 Example of a query URL: `blogs?filtername=filtervalue&f2=fv2`
 
 - Method: `GET`
-- Path: `/blogs`
+- Path: `/getBlogs`
 
 #### Update a blog
 
@@ -86,7 +86,7 @@ Updates a blog by changing its publish status, i.e., adds `publishedAt` date and
 
 Check if the `blogId` exists (must have `isDeleted` false). If it doesn't, return an HTTP status 404.
 
-Endpoint: `BASE_URL/blogs/:blogId`
+Endpoint: `BASE_URL/api/posts`
 
 - Method: `PUT`
 - Path: `/blogs/:blogId`
@@ -95,7 +95,7 @@ Endpoint: `BASE_URL/blogs/:blogId`
 
 Check if the `blogId` exists (and is not deleted). If it does, mark it as deleted.
 
-Endpoint: `BASE_URL/blogs/:blogId`
+Endpoint: `BASE_URL/api/post`
 
 - Method: `DELETE`
 - Path: `/blogs/:blogId`
@@ -104,7 +104,7 @@ Endpoint: `BASE_URL/blogs/:blogId`
 
 Delete blog documents by category, authorId, tag name, subcategory name, unpublished.
 
-Endpoint: `BASE_URL/blogs`
+Endpoint: `BASE_URL/api/post`
 
 - Method: `DELETE`
 - Path: `/blogs`
@@ -117,7 +117,7 @@ Endpoint: `BASE_URL/blogs`
 
 Allow an author to log in with their email and password. On a successful login attempt, return a JWT token containing the `authorId` in the response body.
 
-Endpoint: `BASE_URL/login`
+Endpoint: `BASE_URL/api/author`
 
 - Method: `POST`
 - Path: `/login`
