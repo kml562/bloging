@@ -32,6 +32,9 @@ export const createBlog = async function (req, res) {
     if (blogData.isDeleted) {
       blogData.isDeleted = false; // while creating the data it's not deleted
     }
+    if (blogData.isDeleted) {
+      delete blogData.isDeleted;   // while creating the data it's not deleted
+    }
 
     const getData = await BlogModel.create(blogData);
     res.status(201).json({ status: true, messsage: getData });

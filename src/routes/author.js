@@ -10,7 +10,7 @@ router.get('/test', function (req, res) {
 
 //CreateAuthor router  ---------------------------------------------------
 router.post('/createAuthor', createAuthor);
-router.get('/getUser', getAuthor);
+router.get('/getUser', getAuthor); //it's not required in qustion
 
 
 //login user----

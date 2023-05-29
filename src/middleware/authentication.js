@@ -50,32 +50,3 @@ export const authentication = (req, res, next)=> {
 
 
 
-// import jwt from "jsonwebtoken";
-
-// const {Secretkey} = process.env;
-
-// export const authentication = async (req, res, next) => {
-//   try {
-//     if (!req.headers["x-api-key"]) {
-//       return res.status(400).json({ status: false, message: "Token is required" });
-//     }
-    
-//     const token = req.headers["x-api-key"];
-
-//     jwt.verify(token, Secretkey, (err, decodedToken) => {
-//       if (err) {
-//         console.log(err)
-//         return res.status(400).json({ status: false, message: "You have no permission" });
-//       } else {
-//         req.decodedToken = decodedToken;
-//         console.log(decodedToken);
-//         next();
-//       }
-//     });
-//   } catch (error) {
-//     return res.status(500).json({ status: false, message: error.message });
-//   }
-// };
-
-
-
