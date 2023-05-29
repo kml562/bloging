@@ -1,3 +1,4 @@
+import { response } from "express";
 import AuthorModel from "../models/authorModel.js";
 import { loopmethod, toLowercase } from "../utils/validation/functionval.js";
 import {
@@ -8,46 +9,65 @@ import {
 } from "../utils/validation/validatior.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+dotenv.config();
 export const createAuthor = async (req, res) => {
   try {
     let Data = req.body;
+    Data = loopmethod(Data); //triming all the strings;----------------------------------------->>>>>>>>>>
     const { fname, lname, title, email, password } = Data;
     //first name------------------------------------------------------------------------------------------>>>
     if (!fname.trim())
-      return res.status(404).json({ status: false, message: "please enter the first name" });
-    if (!isValidName(fname) && !isValid(fname))
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the first name" });
+    if (!isValidName(fname))
       return res
         .status(404)
         .json({ status: false, message: "please enter the valid first name" });
 
     //last name----------------------------------------------------------------------------------->>>>>
     if (!lname.trim())
-      return res.status(404).json({ status: false, message: "please enter the last name" });
-    if (!isValidName(lname) && !isValid(lname))
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the last name" });
+    if (!isValidName(lname))
       return res
         .status(404)
         .json({ status: false, message: "please enter the valid last name" });
     //title----------------------------------------------------------------------------------------->>>>>
     if (!title.trim())
-      return res.status(404).json({ status: false, message: "please enter the title" });
-    if (!isValidName(title) && !isValid(title))
-      return res.status(404).json({ status: false, message: "please enter the valid title" });
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the title" });
+    if (!isValidName(title))
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the valid title" });
 
     //email------------------------------------------------------------------------------------------>>>
     if (!email.trim())
-      return res.status(404).json({ status: false, message: "please enter the email" });
-    if (!isValidEmail(email) && !isValid(email))
-      return res.status(404).json({ status: false, message: "please enter the valid email" });
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the email" });
+    if (!isValidEmail(email))
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the valid email" });
     //email = tolowercase(email);
     let val = toLowercase(email);
     Data.email = val;
     //password--------------------------------------------------------------------------------------->>>>>
     if (!password.trim())
-      return res.status(404).json({ status: false, message: "please enter the password" });
-    if (!isValidPassword(password) && !isValid(password))
-      return res.status(404).json({ status: false, message: "please enter the valid password" });
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the password" });
+    if (!isValidPassword(password))
+      return res
+        .status(404)
+        .json({ status: false, message: "please enter the valid password" });
 
-    Data = loopmethod(Data); //triming all the strings;----------------------------------------->>>>>>>>>>
+    
     // find the email is exits in userbase or not;---------------------------------------------->>>>>>>>>>
     let findData = await AuthorModel.findOne({ email: Data.email });
     if (findData) {
@@ -89,47 +109,130 @@ export const getAuthor = async function (req, res) {
 };
 //-log in---------------------------------------------------------------------------
 //----------------------------------------------------------------------------------
+// export const login = async (req, res) => {
+//   try {
+//     req.body.email = req.body.email.trim();
+//     req.body.password = req.body.password.trim();
+//     const { email, password } = req.body;
+//     const { JWT_SECRET, JWT_EXPIRY } = process.env;
+
+//     // Email validation-------------------------------------------------------------------
+//     if (!email.trim())
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "please enter the email" });
+//     if (!isValidEmail(email) && !isValid(email))
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "please enter the valid email" });
+//     //email = tolowercase(email);
+//     let val = toLowercase(email);
+//     req.body.email = val;
+//     // Password validation--------------------------------------------------------------
+//     if (!password.trim())
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "Please enter the password" });
+//     if (!isValidPassword(password))
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "Please enter a valid password" });
+//     //console.log(email);
+//     const author = await AuthorModel.findOne({ email });
+
+//     if (!author)
+//       return res
+//         .status(401)
+//         .json({ status: false, message: "You are not registered" });
+
+//     console.log(author.password);
+//     bcrypt.compare(password, author.password, function (err, res) {
+//       if (err) {
+//        return  res.status(401).json({ status: false, message: "bad request" });
+//       }
+//       if (res) {
+//         const token = jwt.sign({ id: author._id }, JWT_SECRET, {
+//           expiresIn: JWT_EXPIRY,
+//         });
+
+//         res.status(200).json({ status: true, data: { token } });
+//       } else {
+//         // response is OutgoingMessage object that server response http request
+//         return res.status(401).json({ success: false, message: "passwords do not match" });
+      
+//       }
+//     });
+//   } catch (error) {
+//     //console.log(error);
+//     res.status(500).json({ status: false, message: "An error occurred" });
+//   }
+// };
+
 export const login = async (req, res) => {
   try {
-    req.body.email = req.body.email.trim();
-    req.body.password = req.body.password.trim();
-    const { email, password } = req.body;
+    let { email, password } = req.body;
     const { JWT_SECRET, JWT_EXPIRY } = process.env;
 
-    // Email validation-------------------------------------------------------------------
-    if (!email.trim())
-      return res.status(404).json({ status: false, message: "please enter the email" });
-    if (!isValidEmail(email) && !isValid(email))
-      return res.status(404).json({ status: false, message: "please enter the valid email" });
-    //email = tolowercase(email);
-    let val = toLowercase(email);
-    req.body.email = val;
-    // Password validation--------------------------------------------------------------
-    if (!password.trim())
-      return res.status(404).json({ status: false, message: "Please enter the password" });
-    if (!isValidPassword(password))
-      return res.status(404).json({ status: false, message: "Please enter a valid password" });
-    //console.log(email);
-    const author = await AuthorModel.findOne({ email }).select("+password");
+    // Trim email and password
+    email = email.trim();
+    password = password.trim();
 
-    if (!author)
-      return res
-        .status(500)
-        .json({ status: false, message: "You are not registered" });
+    // Email validation
+    if (!email) {
+      return res.status(404).json({ status: false, message: 'Please enter the email' });
+    }
+    if (!isValidEmail(email)) {
+      return res.status(404).json({ status: false, message: 'Please enter a valid email' });
+    }
+    
+    // Convert email to lowercase
+    email = email.toLowerCase();
 
-    const isValidAuthor = bcrypt.compare(password, author.password);
+    // Password validation
+    if (!password) {
+      return res.status(404).json({ status: false, message: 'Please enter the password' });
+    }
+    if (!isValidPassword(password)) {
+      return res.status(404).json({ status: false, message: 'Please enter a valid password' });
+    }
 
-    if (isValidAuthor) {
+    const author = await AuthorModel.findOne({ email });
+
+    if (!author) {
+      return res.status(401).json({ status: false, message: 'You are not registered' });
+    }
+
+    bcrypt.compare(password, author.password, function (err, passwordMatch) {
+      if (err || !passwordMatch) {
+        return res.status(401).json({ status: false, message: 'Passwords do not match' });
+      }
+
       const token = jwt.sign({ id: author._id }, JWT_SECRET, {
         expiresIn: JWT_EXPIRY,
       });
 
       res.status(200).json({ status: true, data: { token } });
-    } else {
-      res.status(401).json({ status: false, message: "Invalid password" });
-    }
+    });
   } catch (error) {
-    //console.log(error);
-    res.status(500).json({ status: false, message: "An error occurred" });
+    console.log(error);
+    res.status(500).json({ status: false, message: 'An error occurred' });
   }
 };
+
+//   const isValidAuthor = bcrypt.compare(password, author.password, function (err, result) {
+//     if (result) {
+//       const token = jwt.sign({ id: author._id }, JWT_SECRET, {
+//         expiresIn: JWT_EXPIRY,
+//       });
+
+//       res.status(200).json({ status: true, data: { token } });
+
+//     }
+//     if (err) {
+//     return res.status(401).json({status:false,message:"Invalid password"})
+//   }
+// });
+
+// else {
+//   res.status(401).json({ status: false, message: "Invalid password" });
+// }
