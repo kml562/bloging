@@ -205,8 +205,8 @@ export const deleteBlog = async function (req, res) {
     }
     // List of blogs that have a specific tag exist is in query prams----------------------------->>>>>>>
     if (tags) {
-     // getData.tags = { $in: tags };
-      getData.tags = tags;
+  getData.tags = { $in: tags };
+      //getData.tags = tags;
     } //using $in to check inside the array--
     // List of blogs that have a specific subcategory exist is in query prams--------------------->>>>>>>>
     if (subcategory) {
