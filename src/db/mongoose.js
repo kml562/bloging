@@ -1,11 +1,8 @@
 import mongoose from "mongoose";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const { PORT, URL } = process.env;    
+ 
 
 
-export const startserver= async(app)=> {
+export const startserver= async(app,PORT,URL)=> {
     try {
        await mongoose.connect(URL)
         console.log("Connected to url")

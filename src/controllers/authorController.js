@@ -9,8 +9,7 @@ import {
 } from "../utils/validation/validatior.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as dotenv from "dotenv";
-dotenv.config();
+
 
 //create auther-----------------------------------------------------------------------------------
 export const createAuthor = async (req, res) => {

@@ -4,6 +4,8 @@ import { response } from "express";
 import { compareSync } from "bcrypt";
 
 export const authorization = async (req, res, next) => {
+  console.log("authorization")
+  
   try {
     const userTokenId = req.decodedToken.id;
     
@@ -12,6 +14,7 @@ export const authorization = async (req, res, next) => {
       _id:userKey, isDeleted:false
     }
     let Data = await BlogModel.findOne(data);
+    console.log(Data);
     if (!Data) {
      return  res.status(404).json({status:false, message:"blog not exsist"});
     }
@@ -22,6 +25,7 @@ export const authorization = async (req, res, next) => {
     if (Data.authorId.toString() !== userTokenId) {
       return res.status(403).send({ status: false, message: 'You are not authorized' });
     }
+    console.log("author22")
     req.authorId = userTokenId;
     next();
   } catch (error) {

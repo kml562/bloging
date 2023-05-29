@@ -24,7 +24,7 @@ router.put("/blogs/:blogId", authentication,authorization ,updateBlog);
 // Delete Blog using query params
 router.delete("/blogs/:blogId",authentication,authorization ,deleteBlogbyID);
 //delete query params--------------------------------------------------------------------
-router.delete('/blogs',authentication,authorization,deleteBlog)
+router.delete('/blogs',authentication,deleteBlog) //authorization is in the deletedbolg
 
 //router.delete("/deleteBlogs", deleteBlog);
 

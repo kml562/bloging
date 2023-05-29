@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 
-const { JWT_SECRET, JWT_EXPIRY } = process.env;
+
 
 
 
 export const authentication = (req, res, next)=> {
   try {
-    console.log(JWT_SECRET)
+    //console.log(JWT_SECRET)
+    const { JWT_SECRET, JWT_EXPIRY } = process.env;
     if (!req.headers["x-api-key"]) {
       return res
         .status(400)
@@ -15,7 +16,7 @@ export const authentication = (req, res, next)=> {
 
     const token = req.headers["x-api-key"];
 
-    jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
+    jwt.verify(token,JWT_SECRET, (err, decodedToken) => {
       if (err) {
         console.log(err);
         return res

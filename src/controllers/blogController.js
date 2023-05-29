@@ -2,8 +2,7 @@ import BlogModel from "../models/blogModel.js";
 import { isValidObjectId } from "mongoose";
 import { isValid, isValidarr } from "../utils/validation/validatior.js";
 import moment from "moment";
-import * as dotenv from "dotenv";
-dotenv.config();
+
 
 // publishedAt: {when the blog is published}//
 //==create Blog ----------------------------------------------------------------------->>>>>>>>>>
@@ -177,26 +176,50 @@ export const deleteBlogbyID = async (req, res) => {
 export const deleteBlog = async function (req, res) {
   try {
     const condition = req.query;
-      
+    const { authorId, category, tags, subcategory } = condition;
+    let getData = { isDeleted:false}
     if (!condition)
       return res
         .status(404)
         .send({ statu: false, message: "Please provide condition" });
-    if (condition.authorId) {
-    if (!isValidObjectId(condition.authorId)) {
-      return res
-        .status(400)
-        .json({ status: false, messsage: "please provide valid authorId" });
+    if (authorId) {
+      if (!isValidObjectId(condition.authorId)) {
+        return res
+          .status(400)
+          .json({ status: false, messsage: "please provide valid authorId" });
       }
       if (condition.authorId !== req.authorId) {
         return res
-        .status(400)
-        .json({ status: false, messsage: "You are not authorized" });
+          .status(400)
+          .json({ status: false, messsage: "You are not authorized" });
       }
     };
+    if (authorId) {
+      getData.authorId = authorId;
+    }
+    if (!authorId) {
+      getData.authorId = req.decodedToken.id;
+   }
+    if (category) {
+      getData.category = category;
+    }
+    // List of blogs that have a specific tag exist is in query prams-----------------------------------
+    if (tags) {
+     // getData.tags = { $in: tags };
+      getData.tags = tags;
+    } //using $in to check inside the array--
+    // List of blogs that have a specific subcategory exist is in query prams--------------------------
+    if (subcategory) {
+      getData.subcategory = { $in: subcategory };
+    } //using $in to check inside the array-
+    
+
+    console.log(getData)
+
+
 
     const data = await BlogModel.updateMany(
-      condition,
+      getData,
       {
         isDeleted: true,
         deletedAt: moment().format(),
@@ -205,7 +228,7 @@ export const deleteBlog = async function (req, res) {
     console.log(data);
     if (data.modifiedCount===0)
       return res.status(404).json({ status: false, message: "Data not found" });
-    res.status(200).json({ status: true, message: "Blog deleted" });
+    res.status(200).json({ status: true, message: `${data.modifiedCount} Blog deleted` });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
   }
