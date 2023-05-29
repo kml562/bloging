@@ -4,7 +4,7 @@ import { isValid, isValidarr } from "../utils/validation/validatior.js";
 import moment from "moment";
 
 
-// publishedAt: {when the blog is published}//
+// publishedAt: {when the blog is published}//----------------------------------------->>>>>>>>>>
 //==create Blog ----------------------------------------------------------------------->>>>>>>>>>
 export const createBlog = async function (req, res) {
   try {
@@ -42,7 +42,7 @@ export const createBlog = async function (req, res) {
   }
 };
 
-//----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------->>>>>
 export const getblogdata = async (req, res) => {
   try {
     let filterData = req.query;
@@ -51,19 +51,19 @@ export const getblogdata = async (req, res) => {
       isPublished: true,
     };
     const { authorId, category, subcategory, tags } = filterData;
-    // if authoriD exist is in query prams-----------------------------------------------------------
+    // if authoriD exist is in query prams----------------------------------------------------------->>>>>
     if (authorId) {
       getData.authorId = authorId;
     }
-    // if any category exist is in query prams---------------------------------------------------------
+    // if any category exist is in query prams--------------------------------------------------------->>>>
     if (category) {
       getData.category = category;
     }
-    // List of blogs that have a specific tag exist is in query prams-----------------------------------
+    // List of blogs that have a specific tag exist is in query prams----------------------------------->>>>
     if (tags) {
       getData.tags = { $in: tags };
     } //using $in to check inside the array--
-    // List of blogs that have a specific subcategory exist is in query prams--------------------------
+    // List of blogs that have a specific subcategory exist is in query prams------------------------>>>>>>>
     if (subcategory) {
       getData.subcategory = { $in: subcategory };
     } //using $in to check inside the array-
@@ -83,7 +83,7 @@ export const getblogdata = async (req, res) => {
   }
 };
 
-// update Blog---------------------------------------------------------------------------------
+// update Blog---------------------------------------------------------------------------->>>>>>>>>>>>>
 
 
 
@@ -203,12 +203,12 @@ export const deleteBlog = async function (req, res) {
     if (category) {
       getData.category = category;
     }
-    // List of blogs that have a specific tag exist is in query prams-----------------------------------
+    // List of blogs that have a specific tag exist is in query prams----------------------------->>>>>>>
     if (tags) {
      // getData.tags = { $in: tags };
       getData.tags = tags;
     } //using $in to check inside the array--
-    // List of blogs that have a specific subcategory exist is in query prams--------------------------
+    // List of blogs that have a specific subcategory exist is in query prams--------------------->>>>>>>>
     if (subcategory) {
       getData.subcategory = { $in: subcategory };
     } //using $in to check inside the array-
