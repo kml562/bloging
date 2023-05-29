@@ -2,7 +2,6 @@ import express from "express";
 import {
   createBlog,
   deleteBlog,
-  deleteBlogByFilter,
   deleteBlogbyID,
   getblogdata,
   updateBlog,
@@ -28,6 +27,6 @@ router.delete("/blogs/:blogId",authentication,authorization ,deleteBlogbyID);
 router.delete('/blogs',authentication,authorization,deleteBlog)
 
 //router.delete("/deleteBlogs", deleteBlog);
-router.delete("/deleteBlogByFilter/authorId",authentication, authorization,deleteBlogByFilter);
+
 
 export default router;

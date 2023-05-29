@@ -211,25 +211,3 @@ export const deleteBlog = async function (req, res) {
   }
 };
 
-export const deleteBlogByFilter = async function (req, res) {
-  try {
-    const ReqData = req.query;
-    ReqData.authorId = req.authorId;
-    //====performing deletion operation========================================================
-    const DeleteBlog = await BlogModel.updateMany(
-      { ...ReqData, isPublished: false, isDeleted: false },
-      { $set: { isDeleted: true, deletedAt: new Date.now() } },
-      { new: true, upsert: true }
-    );
-
-    if (DeleteBlog.matchedCount == 0) {
-      //matchedCount is nothing but one of the return key of updateMany query====================
-      return res
-        .status(404)
-        .send({ status: false, msg: "Data  Already Deleted or Not Found !!" });
-    }
-    res.status(200).send({ status: true, msg: "Data Deleted Sucessfully !!" });
-  } catch (err) {
-    res.status(500).send({ status: false, msg: err.message });
-  }
-};
