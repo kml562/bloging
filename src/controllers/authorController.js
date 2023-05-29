@@ -12,40 +12,40 @@ export const createAuthor = async (req, res) => {
   try {
     let Data = req.body;
     const { fname, lname, title, email, password } = Data;
- //first name------------------------------------------------------------------------------------------>>>
+    //first name------------------------------------------------------------------------------------------>>>
     if (!fname.trim())
-      return res.status(404).json({ error: "please enter the first name" });
+      return res.status(404).json({ status: false, message: "please enter the first name" });
     if (!isValidName(fname) && !isValid(fname))
       return res
         .status(404)
-        .json({ error: "please enter the valid first name" });
+        .json({ status: false, message: "please enter the valid first name" });
 
     //last name----------------------------------------------------------------------------------->>>>>
     if (!lname.trim())
-      return res.status(404).json({ error: "please enter the last name" });
+      return res.status(404).json({ status: false, message: "please enter the last name" });
     if (!isValidName(lname) && !isValid(lname))
       return res
         .status(404)
-        .json({ error: "please enter the valid last name" });
+        .json({ status: false, message: "please enter the valid last name" });
     //title----------------------------------------------------------------------------------------->>>>>
     if (!title.trim())
-      return res.status(404).json({ error: "please enter the title" });
+      return res.status(404).json({ status: false, message: "please enter the title" });
     if (!isValidName(title) && !isValid(title))
-      return res.status(404).json({ error: "please enter the valid title" });
+      return res.status(404).json({ status: false, message: "please enter the valid title" });
 
     //email------------------------------------------------------------------------------------------>>>
     if (!email.trim())
-      return res.status(404).json({ error: "please enter the email" });
+      return res.status(404).json({ status: false, message: "please enter the email" });
     if (!isValidEmail(email) && !isValid(email))
-      return res.status(404).json({ error: "please enter the valid email" });
+      return res.status(404).json({ status: false, message: "please enter the valid email" });
     //email = tolowercase(email);
     let val = toLowercase(email);
     Data.email = val;
     //password--------------------------------------------------------------------------------------->>>>>
     if (!password.trim())
-      return res.status(404).json({ error: "please enter the password" });
+      return res.status(404).json({ status: false, message: "please enter the password" });
     if (!isValidPassword(password) && !isValid(password))
-      return res.status(404).json({ error: "please enter the valid password" });
+      return res.status(404).json({ status: false, message: "please enter the valid password" });
 
     Data = loopmethod(Data); //triming all the strings;----------------------------------------->>>>>>>>>>
     // find the email is exits in userbase or not;---------------------------------------------->>>>>>>>>>
@@ -62,7 +62,7 @@ export const createAuthor = async (req, res) => {
     const saveData = await AuthorModel.create(Data);
     res.status(201).json({ status: true, Data: saveData });
   } catch (error) {
-   // console.log(error);
+    // console.log(error);
     res.status(500).json({ status: false, message: error.message });
   }
 };
@@ -84,7 +84,7 @@ export const getAuthor = async function (req, res) {
     res.status(200).send({ status: true, authors: authors });
   } catch (error) {
     //console.log(error);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ status: false, message: "Internal Server Error" });
   }
 };
 //-log in---------------------------------------------------------------------------
@@ -98,17 +98,17 @@ export const login = async (req, res) => {
 
     // Email validation-------------------------------------------------------------------
     if (!email.trim())
-      return res.status(404).json({ error: "please enter the email" });
+      return res.status(404).json({ status: false, message: "please enter the email" });
     if (!isValidEmail(email) && !isValid(email))
-      return res.status(404).json({ error: "please enter the valid email" });
+      return res.status(404).json({ status: false, message: "please enter the valid email" });
     //email = tolowercase(email);
     let val = toLowercase(email);
     req.body.email = val;
     // Password validation--------------------------------------------------------------
     if (!password.trim())
-      return res.status(404).json({ error: "Please enter the password" });
+      return res.status(404).json({ status: false, message: "Please enter the password" });
     if (!isValidPassword(password))
-      return res.status(404).json({ error: "Please enter a valid password" });
+      return res.status(404).json({ status: false, message: "Please enter a valid password" });
     //console.log(email);
     const author = await AuthorModel.findOne({ email }).select("+password");
 
@@ -130,6 +130,6 @@ export const login = async (req, res) => {
     }
   } catch (error) {
     //console.log(error);
-    res.status(500).json({ message: "An error occurred" });
+    res.status(500).json({ status: false, message: "An error occurred" });
   }
 };
