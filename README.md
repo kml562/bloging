@@ -7,7 +7,7 @@ This is the Technetium repository for the backend cohort's blogging site mini pr
 The project involves building a blogging site with authentication and authorization features. It consists of two phases, with each phase having specific requirements.
 
 
-##Deployed Link >> https://group-proj.onrender.com/api/posts/getBlogs
+##   Deployed Link >> https://group-proj.onrender.com/api/posts/getBlogs
 change path to get other data
 ## Phase I
 
