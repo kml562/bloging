@@ -6,9 +6,9 @@ This is the Technetium repository for the backend cohort's blogging site mini pr
 
 The project involves building a blogging site with authentication and authorization features. It consists of two phases, with each phase having specific requirements.
 
-##  default get method
-##   Deployed Link Glitch >> https://night-indecisive-run.glitch.me/api/posts/getBlogs
-##   Deployed Link Randen >> https://group-proj.onrender.com/api/posts/getBlogs
+
+##   Deployed Link Glitch >> https://night-indecisive-run.glitch.me
+##   Deployed Link Randen >> https://group-proj.onrender.com
 change path to get other data
 ## Phase I
 
